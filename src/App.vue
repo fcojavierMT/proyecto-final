@@ -45,11 +45,13 @@
       </v-toolbar-items>
     </v-toolbar>
 
-    <main>
-      <router-view>
+    <v-content>
+      <v-container fluid>
+        <router-view>
 
-      </router-view>
-    </main>
+        </router-view>
+    </v-container>
+  </v-content>
   </v-app>
 </template>
 

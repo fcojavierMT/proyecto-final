@@ -1,13 +1,36 @@
 <template>
-  <v-carousel>
-    <v-carousel-item v-for="item in items" 
-        :src="item.src" 
-        :key="item.src">
-        <div class='title-image'>
-          {{item.title}}
-        </div>
-    </v-carousel-item>
-  </v-carousel>
+  <v-container>
+
+    <v-layout row wrap>
+      <v-flex>
+        <v-carousel>
+         <v-carousel-item v-for="item in items" 
+            :src="item.src" 
+            :key="item.src">
+            <div class='title-image'>
+              {{item.title}}
+            </div>
+        </v-carousel-item>
+       </v-carousel>
+      </v-flex>
+    </v-layout>
+
+    <v-layout v-for="card in cardItems" :key="card.src">
+      <v-flex xs12 sm6 offset-sm3 class="card-info">
+        <v-card>
+          <v-card-media :src="card.src" height="200px">
+           </v-card-media>
+           <v-card-title primary-title>
+             <div>
+               <h3 class="headline mb-0">{{card.title}}</h3>
+               <div>{{card.description}}</div>
+             </div>
+          </v-card-title>
+        </v-card>
+       </v-flex>
+     </v-layout>
+
+  </v-container>
 </template>
 
 <script>
@@ -31,6 +54,18 @@ export default {
           src: '/static/carousel-images/image4.jpg',
           title: 'Meetings, quedadas, trabajos..'
         }
+      ],
+      cardItems: [
+        {
+          src: '/static/card-images/joinUs.png',
+          title: 'Unete a nosotros, y crea tus notas!',
+          description: 'No te olvides de nada importante y unete a nosotros a través de este link!'
+        },
+        {
+          src: '/static/card-images/newNote.jpg',
+          title: 'Crea tu nota, y no te olvides de ella!',
+          description: 'Una simple interación con dos clicks y tu nota ya esta lista!'
+        }
       ]
     }
   }
@@ -48,5 +83,9 @@ export default {
   background-color: rgba(0, 0, 0, 0.5);
   font-size: 2em;
   color: $color-text;
+}
+.card-info{
+  background-color: $button-color;
+  margin-top: 20px;
 }
 </style>
