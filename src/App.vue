@@ -33,7 +33,7 @@
       <v-toolbar-side-icon @click='sideNav =! sideNav'></v-toolbar-side-icon>
       <v-toolbar-title>
         <router-link class="eslogan-logo" to='/home' tag='span'>
-          Acuérdate
+          Stick a note!
         </router-link>
       </v-toolbar-title>
       <v-spacer></v-spacer>
@@ -52,6 +52,13 @@
         </router-view>
     </v-container>
   </v-content>
+   <v-footer height="auto" class="grey darken-3">
+      <v-layout row wrap justify-center>
+        <v-flex xs12 py-3 text-xs-center white--text>
+          &copy;2018 — <strong>Francisco Javier Martínez Talavera</strong>
+        </v-flex>
+      </v-layout>
+    </v-footer>
   </v-app>
 </template>
 
@@ -75,6 +82,16 @@ export default {
           icon: 'library_books',
           title: 'Mis tareas',
           link: '/tasks'
+        },
+        {
+          icon: 'group_add',
+          title: 'Registrarse',
+          link: '/signUp'
+        },
+        {
+          icon: 'lock_open',
+          title: 'Iniciar Sesion',
+          link: '/signIn'
         }
       ]
     }
@@ -104,8 +121,9 @@ export default {
 }
 
 .home-logo{
-  width: 20%;
+  width: 95px;
 }
+
 #app{
   background-color: $color-principal;
 }

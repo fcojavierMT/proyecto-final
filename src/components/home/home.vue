@@ -1,7 +1,6 @@
 <template>
   <v-container>
-
-    <v-layout row wrap>
+    <v-layout row wrap >
       <v-flex>
         <v-carousel>
          <v-carousel-item v-for="item in items" 
@@ -15,9 +14,9 @@
       </v-flex>
     </v-layout>
 
-    <v-layout v-for="card in cardItems" :key="card.src">
-      <v-flex xs12 sm6 offset-sm3 class="card-info">
-        <v-card>
+    <v-layout row wrap>
+      <v-flex v-for="card in cardItems" :key="card.src">
+        <v-card class="card-info">
           <v-card-media :src="card.src" height="200px">
            </v-card-media>
            <v-card-title primary-title>
@@ -85,7 +84,11 @@ export default {
   color: $color-text;
 }
 .card-info{
-  background-color: $button-color;
   margin-top: 20px;
+  margin-right: 10px;
+}
+.carousel{
+  margin-left: 0px;
+  margin-right: 0px;
 }
 </style>

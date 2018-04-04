@@ -1,5 +1,11 @@
 <template>
-  <h1>Bienvenido a tus tareas !</h1>
+  <v-container>
+    <v-layout>
+      <v-flex>
+        
+      </v-flex>
+    </v-layout>
+  </v-container>
 </template>
 
 <script>
