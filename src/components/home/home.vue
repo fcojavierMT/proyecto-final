@@ -1,22 +1,20 @@
 <template>
-  <v-container>
-    <v-layout row wrap >
-      <v-flex>
-        <v-carousel>
-         <v-carousel-item v-for="item in items" 
-            :src="item.src" 
-            :key="item.src">
-            <div class='title-image'>
-              {{item.title}}
-            </div>
-        </v-carousel-item>
-       </v-carousel>
+  <div class="home-container">
+
+    <v-layout row wrap class="ma-0">
+      <v-flex xs12>
+        <v-parallax src="/static/main-page/mainPage.png" height="600">
+          <v-layout column align-center justify-center>
+            <img src="/static/main-page/stick.png" class="note-logo animated fadeInDown">
+            <h1 class="title-home animated fadeInDown">Stick a note!</h1>
+          </v-layout>     
+        </v-parallax>
       </v-flex>
     </v-layout>
 
     <v-layout row wrap>
       <v-flex v-for="card in cardItems" :key="card.src">
-        <v-card class="card-info">
+        <v-card class="card-info animated fadeInLeft">
           <v-card-media :src="card.src" height="200px">
            </v-card-media>
            <v-card-title primary-title>
@@ -28,8 +26,7 @@
         </v-card>
        </v-flex>
      </v-layout>
-
-  </v-container>
+  </div>
 </template>
 
 <script>
@@ -84,11 +81,15 @@ export default {
   color: $color-text;
 }
 .card-info{
-  margin-top: 20px;
-  margin-right: 10px;
+  margin: 20px;
 }
-.carousel{
-  margin-left: 0px;
-  margin-right: 0px;
+.home-container{
+  padding: 0px;
+}
+.note-logo{
+  width: 200px;
+}
+.title-home{
+  font-size: 50px;
 }
 </style>

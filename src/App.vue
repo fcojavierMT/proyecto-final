@@ -33,7 +33,7 @@
       <v-toolbar-side-icon @click='sideNav =! sideNav'></v-toolbar-side-icon>
       <v-toolbar-title>
         <router-link class="eslogan-logo" to='/home' tag='span'>
-          Stick a note!
+          <img src="./assets/logo.png" class="menu-logo">
         </router-link>
       </v-toolbar-title>
       <v-spacer></v-spacer>
@@ -44,13 +44,10 @@
         </v-btn>
       </v-toolbar-items>
     </v-toolbar>
-
     <v-content>
-      <v-container fluid>
-        <router-view>
+      <router-view>
 
-        </router-view>
-    </v-container>
+      </router-view>
   </v-content>
    <v-footer height="auto" class="grey darken-3">
       <v-layout row wrap justify-center>
@@ -104,7 +101,8 @@ export default {
 
 @import '~styles/index.scss';
 
-.home-logo {
+.menu-logo {
+  width: 10%;
   padding-top: 5px;
 }
 
@@ -118,10 +116,6 @@ export default {
 
 .title-navbar{
   text-transform: capitalize;
-}
-
-.home-logo{
-  width: 95px;
 }
 
 #app{
