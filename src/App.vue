@@ -90,6 +90,27 @@ export default {
           title: 'Iniciar Sesion',
           link: '/signIn'
         }
+      ],
+      menuLogIn: [
+        {
+          icon: 'home',
+          title: 'Inicio',
+          link: '/home'
+        },
+        {
+          icon: 'account_circle',
+          title: 'Perfil',
+          link: '/user'
+        },
+        {
+          icon: 'library_books',
+          title: 'Mis tareas',
+          link: '/tasks'
+        },
+        {
+          icon: 'exit_to_app',
+          title: 'Salir'
+        }
       ]
     }
   },
