@@ -3,6 +3,7 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import firebaseConnection from './api/firebaseConnection'
 
 import {
   Vuetify,
@@ -19,8 +20,10 @@ import {
   VCard,
   VForm,
   VTextField,
-  VParallax
+  VParallax,
+  VAlert
 } from 'vuetify'
+
 import '../node_modules/vuetify/src/stylus/app.styl'
 
 Vue.use(Vuetify, {
@@ -38,8 +41,10 @@ Vue.use(Vuetify, {
     VCard,
     VForm,
     VTextField,
-    VParallax
-  }
+    VParallax,
+    VAlert
+  },
+  firebaseConnection
 })
 
 Vue.config.productionTip = false
