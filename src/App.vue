@@ -8,7 +8,7 @@
               <img src='https://randomuser.me/api/portraits/men/85.jpg' >
             </v-list-tile-avatar>
             <v-list-tile-content>
-              <v-list-tile-title>Luis López</v-list-tile-title>
+              <v-list-tile-title> Hola</v-list-tile-title>
             </v-list-tile-content>
           </v-list-tile>
         </v-list>
@@ -16,8 +16,8 @@
 
       <v-list class='pt-0' dense>
         <v-list-tile v-for='item in menuItems' 
-        :key='item.title'
-        :to='item.link'>
+                     :key='item.title'
+                     :to='item.link'>
           <v-list-tile-action>
             <v-icon>{{ item.icon }}</v-icon>
           </v-list-tile-action>
@@ -60,10 +60,13 @@
 </template>
 
 <script>
+
 export default {
   data () {
     return {
       sideNav: false,
+      menuLoggedIn: false,
+      userEmail: '',
       menuItems: [
         {
           icon: 'home',
