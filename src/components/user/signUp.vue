@@ -28,6 +28,13 @@
         </v-alert>
       </v-flex>
     </v-layout>
+    <v-layout v-if="alertError">
+      <v-flex xs12 sm6 offset-sm3>
+        <v-alert type="error" :value="true">
+          {{errorMessage}}
+        </v-alert>
+      </v-flex>
+    </v-layout>
   </v-container>
 </template>
 
@@ -41,7 +48,9 @@
         email: '',
         password: '',
         confirmPass: '',
-        alertSuccess: false
+        alertSuccess: false,
+        alertError: false,
+        errorMessage: ''
       }
     },
     computed: {
@@ -54,12 +63,14 @@
         firebase.auth().createUserWithEmailAndPassword(this.email, this.password).then(
           (user) => {
             this.alertSuccess = true
+            this.alerError = false
             setTimeout((user) => {
               this.$router.replace('home')
             }, 3000)
           },
           (error) => {
-            alert('Ooops' + error.message)
+            this.alertError = true
+            this.errorMessage = error.message
           }
         )
       }
