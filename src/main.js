@@ -4,6 +4,7 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import firebase from 'firebase'
+import Loading from './components/common/loading.vue'
 
 import {
   Vuetify,
@@ -58,6 +59,7 @@ firebase.initializeApp(config)
 
 Vue.config.productionTip = false
 Vue.use(router)
+Vue.component('loading-component', Loading)
 
 /* eslint-disable no-new */
 new Vue({

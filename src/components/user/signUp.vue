@@ -23,16 +23,21 @@
     </v-layout>
     <v-layout v-if="alertSuccess">
       <v-flex xs12 sm6 offset-sm3>
-        <v-alert type="success" :value="true">
-          Te has registrado correctamente, redirigiendo..
+        <v-alert color="success" :value="true" icon="done" class="animated fadeIn">
+          Te has registrado correctamente
         </v-alert>
       </v-flex>
     </v-layout>
     <v-layout v-if="alertError">
       <v-flex xs12 sm6 offset-sm3>
-        <v-alert type="error" :value="true">
+        <v-alert color="error" icon="warning" :value="true" class="animated fadeIn">
           {{errorMessage}}
         </v-alert>
+      </v-flex>
+    </v-layout>
+    <v-layout>
+      <v-flex xs12 sm6 offset-sm3>
+        <loading-component></loading-component>
       </v-flex>
     </v-layout>
   </v-container>
@@ -48,9 +53,10 @@
         email: '',
         password: '',
         confirmPass: '',
+        errorMessage: '',
         alertSuccess: false,
         alertError: false,
-        errorMessage: ''
+        loadingState: false
       }
     },
     computed: {
@@ -60,19 +66,24 @@
     },
     methods: {
       signUp: function () {
-        firebase.auth().createUserWithEmailAndPassword(this.email, this.password).then(
-          (user) => {
-            this.alertSuccess = true
-            this.alerError = false
-            setTimeout((user) => {
-              this.$router.replace('home')
-            }, 3000)
-          },
-          (error) => {
-            this.alertError = true
-            this.errorMessage = error.message
-          }
-        )
+        if (!this.comparePasswords()) {
+          firebase.auth().createUserWithEmailAndPassword(this.email, this.password).then(
+            (user) => {
+              this.alertSuccess = true
+              this.alertError = false
+              setTimeout((user) => {
+                this.$router.replace('home')
+              }, 3000)
+            },
+            (error) => {
+              this.alertError = true
+              this.errorMessage = error.message
+            }
+          )
+        }
+      },
+      comparePasswords: function () {
+        return this.password !== this.confirmPass
       }
     }
   }
