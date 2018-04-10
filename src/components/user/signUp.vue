@@ -35,7 +35,7 @@
         </v-alert>
       </v-flex>
     </v-layout>
-    <loading-component></loading-component>
+    <loading-component v-if="alertSuccess"></loading-component>
   </v-container>
 </template>
 
