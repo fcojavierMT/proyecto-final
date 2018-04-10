@@ -35,11 +35,7 @@
         </v-alert>
       </v-flex>
     </v-layout>
-    <v-layout>
-      <v-flex xs12 sm6 offset-sm3>
-        <loading-component></loading-component>
-      </v-flex>
-    </v-layout>
+    <loading-component></loading-component>
   </v-container>
 </template>
 

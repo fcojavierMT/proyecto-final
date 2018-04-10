@@ -21,9 +21,9 @@
   @import "~styles/index.scss";
 
   .loader {
-    position: absolute;
-    left: 50vw;
-    top: 480px;
+    position: relative;
+    top: 70px;
+    left: 50%;
     margin-left: -50px;
     margin-top: -50px;
     width: 100px;
