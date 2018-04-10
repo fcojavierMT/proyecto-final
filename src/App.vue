@@ -15,7 +15,7 @@
       </v-toolbar>
 
       <v-list class='pt-0' dense>
-        <v-list-tile v-for='item in menuItems' 
+        <v-list-tile v-for='item in menuItems'
                      :key='item.title'
                      :to='item.link'>
           <v-list-tile-action>
@@ -29,7 +29,7 @@
 
     </v-navigation-drawer>
 
-    <v-toolbar class='color-principal'>
+    <v-toolbar class='color-principal nav-principal' fixed>
       <v-toolbar-side-icon @click='sideNav =! sideNav'></v-toolbar-side-icon>
       <v-toolbar-title>
         <router-link class="eslogan-logo" to='/home' tag='span'>
@@ -48,13 +48,13 @@
       <router-view>
 
       </router-view>
-  </v-content>
-   <v-footer height="auto" class="grey darken-3">
-      <v-layout row wrap justify-center>
-        <v-flex xs12 py-3 text-xs-center white--text>
-          &copy;2018 — <strong>Francisco Javier Martínez Talavera</strong>
-        </v-flex>
-      </v-layout>
+    </v-content>
+    <v-footer height="auto" class="grey darken-3">
+        <v-layout row wrap justify-center>
+          <v-flex xs12 py-3 text-xs-center white--text>
+            &copy;2018 — <strong>Francisco Javier Martínez Talavera</strong>
+          </v-flex>
+        </v-layout>
     </v-footer>
   </v-app>
 </template>

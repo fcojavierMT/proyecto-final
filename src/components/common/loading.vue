@@ -1,12 +1,11 @@
 <template>
     <div class="loader">
-      <svg version="1.1" id="Layer_1" x="0px" y="0px"
-        viewBox="0 0 81 45" enable-background="new 0 0 81 45" xml:space="preserve">
+      <svg version="1.1" id="Layer_1" x="0px" y="0px" viewBox="0 0 81 45" >
         <circle class="circle1" fill="#1A7FC3" cx="13.5" cy="22.5" r="4.5" />
         <circle class="circle2" fill="#1A7FC3" cx="31.5" cy="22.5" r="4.5" />
         <circle class="circle3" fill="#1A7FC3" cx="49.5" cy="22.5" r="4.5" />
         <circle class="circle4" fill="#1A7FC3" cx="67.5" cy="22.5" r="4.5" />
-      </svg> REDIRIGIENDO...
+      </svg> Redirigiendo...
     </div>
 </template>
 
@@ -21,12 +20,8 @@
   @import "~styles/index.scss";
 
   .loader {
-    position: relative;
-    top: 70px;
-    left: 50%;
-    margin-left: -50px;
-    margin-top: -50px;
     width: 100px;
+    margin: 0 auto;
     text-align: center;
     font-size: 1.2em;
     color: $loading-color;

@@ -7,7 +7,7 @@
           <v-layout column align-center justify-center>
             <img src="/static/main-page/stick.png" class="note-logo animated fadeInDown">
             <h1 class="title-home animated fadeInDown">Stick a note!</h1>
-          </v-layout>     
+          </v-layout>
         </v-parallax>
       </v-flex>
     </v-layout>
@@ -30,6 +30,8 @@
 </template>
 
 <script>
+import firebase from 'firebase'
+
 export default {
   data () {
     return {
@@ -64,6 +66,17 @@ export default {
         }
       ]
     }
+  },
+  computed: {
+    checkIfUserIsLoggedIn: function () {
+      firebase.auth().onAuthStateChanged((user) => {
+        if (user) {
+          console.log('Estoy conectado' + this.user.email)
+        } else {
+          console.log('No estoy conectado')
+        }
+      })
+    }
   }
 }
 </script>
@@ -80,15 +93,19 @@ export default {
   font-size: 2em;
   color: $color-text;
 }
+
 .card-info{
   margin: 20px;
 }
+
 .home-container{
   padding: 0px;
 }
+
 .note-logo{
   width: 200px;
 }
+
 .title-home{
   font-size: 50px;
 }
