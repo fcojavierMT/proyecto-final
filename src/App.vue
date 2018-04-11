@@ -5,7 +5,7 @@
         <v-list class='pa-0'>
           <v-list-tile avatar class='user-info'>
             <v-list-tile-avatar>
-              <img src='https://randomuser.me/api/portraits/men/85.jpg' >
+              <img src='/static/user-images/userIcon.png' >
             </v-list-tile-avatar>
             <v-list-tile-content>
               <v-list-tile-title> {{getCurrentUserEmail}} {{userEmail}}</v-list-tile-title>
