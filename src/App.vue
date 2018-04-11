@@ -8,7 +8,7 @@
               <img src='https://randomuser.me/api/portraits/men/85.jpg' >
             </v-list-tile-avatar>
             <v-list-tile-content>
-              <v-list-tile-title> Hola</v-list-tile-title>
+              <v-list-tile-title> {{getCurrentUserEmail}} {{userEmail}}</v-list-tile-title>
             </v-list-tile-content>
           </v-list-tile>
         </v-list>
@@ -26,7 +26,6 @@
           </v-list-tile-content>
         </v-list-tile>
       </v-list>
-
     </v-navigation-drawer>
 
     <v-toolbar class='color-principal nav-principal' fixed>
@@ -60,6 +59,7 @@
 </template>
 
 <script>
+import firebase from 'firebase'
 
 export default {
   data () {
@@ -115,6 +115,17 @@ export default {
           title: 'Salir'
         }
       ]
+    }
+  },
+  computed: {
+    getCurrentUserEmail: function () {
+      firebase.auth().onAuthStateChanged((user) => {
+        if (user) {
+          this.userEmail = user.email
+        } else {
+          this.userEmail = 'Conectate'
+        }
+      })
     }
   },
   name: 'App'

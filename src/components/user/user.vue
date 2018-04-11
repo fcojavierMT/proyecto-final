@@ -1,5 +1,7 @@
 <template>
-  <h1>Bievenido a tu perfil</h1>
+  <v-container>
+
+  </v-container>
 </template>
 
 <script>

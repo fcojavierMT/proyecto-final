@@ -1,5 +1,5 @@
 <template>
-  <v-container class="signUp-card">
+  <v-container class="signUp-container__card">
     <v-layout>
       <v-flex xs12 sm6 offset-sm3>
         <v-card class="animated fadeIn">
@@ -98,8 +98,8 @@
 <style lang="scss">
 @import '~styles/index.scss';
 
-.signUp-card {
-  margin-top: 50px;
+.signUp-container__card {
+  margin-top: 80px;
 }
 
 
