@@ -66,6 +66,7 @@ export default {
     return {
       sideNav: false,
       menuLoggedIn: false,
+      userIsConnected: false,
       userEmail: '',
       menuItems: [
         {
@@ -112,7 +113,8 @@ export default {
         },
         {
           icon: 'exit_to_app',
-          title: 'Salir'
+          title: 'Salir',
+          link: '/logout'
         }
       ]
     }
@@ -124,6 +126,15 @@ export default {
           this.userEmail = user.email
         } else {
           this.userEmail = 'Conectate'
+        }
+      })
+    },
+    isLoggedIn: function () {
+      firebase.auth().onAuthStateChanged((user) => {
+        if (user) {
+          this.userIsConnected = true
+        } else {
+          this.userIsConnected = false
         }
       })
     }

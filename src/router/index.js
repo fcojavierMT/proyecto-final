@@ -5,6 +5,7 @@ import User from '@/components/user/user'
 import Tasks from '@/components/tasks/tasks'
 import SignIn from '@/components/user/signIn'
 import SignUp from '@/components/user/signUp'
+import LogOut from '@/components/user/logout'
 
 Vue.use(Router)
 
@@ -34,6 +35,11 @@ export default new Router({
       path: '/signUp',
       name: 'signUp',
       component: SignUp
+    },
+    {
+      path: '/logout',
+      name: 'logout',
+      component: LogOut
     },
     {
       path: '*',
