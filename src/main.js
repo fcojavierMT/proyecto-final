@@ -22,7 +22,9 @@ import {
   VForm,
   VTextField,
   VParallax,
-  VAlert
+  VAlert,
+  VDialog,
+  VSelect
 } from 'vuetify'
 
 import '../node_modules/vuetify/src/stylus/app.styl'
@@ -43,7 +45,9 @@ Vue.use(Vuetify, {
     VForm,
     VTextField,
     VParallax,
-    VAlert
+    VAlert,
+    VDialog,
+    VSelect
   }
 })
 

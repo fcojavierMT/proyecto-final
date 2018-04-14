@@ -109,11 +109,6 @@ export default {
               link: '/home'
             },
             {
-              icon: 'account_circle',
-              title: 'Perfil',
-              link: '/user'
-            },
-            {
               icon: 'group_add',
               title: 'Registrarse',
               link: '/signUp'

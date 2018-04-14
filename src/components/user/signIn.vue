@@ -12,7 +12,7 @@
                 <v-text-field label="Contraseña" prepend-icon="lock_open" type="password" v-model="password" required>
                 </v-text-field>
                 <v-btn v-on:click="signIn" :disabled="alertSuccess">
-                  Registrarse
+                  Iniciar Sesión
                 </v-btn>
               </v-form>
             </v-flex>
@@ -34,7 +34,11 @@
         </v-alert>
       </v-flex>
     </v-layout>
-    <loading-component v-if="alertSuccess"></loading-component>
+   <v-layout v-if="alertSuccess">
+      <v-flex xs12 sm6 offset-sm3>
+        <loading-component></loading-component>
+      </v-flex>
+    </v-layout>
   </v-container>
 </template>
 
