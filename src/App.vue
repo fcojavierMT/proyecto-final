@@ -8,7 +8,7 @@
               <img src='/static/user-images/userIcon.png' >
             </v-list-tile-avatar>
             <v-list-tile-content>
-              <v-list-tile-title> {{getCurrentUserEmail}} {{userEmail}}</v-list-tile-title>
+              <v-list-tile-title> {{isLoggedIn}} {{userEmail}}</v-list-tile-title>
             </v-list-tile-content>
           </v-list-tile>
         </v-list>
@@ -68,73 +68,62 @@ export default {
       menuLoggedIn: false,
       userIsConnected: false,
       userEmail: '',
-      menuItems: [
-        {
-          icon: 'home',
-          title: 'Inicio',
-          link: '/home'
-        },
-        {
-          icon: 'account_circle',
-          title: 'Perfil',
-          link: '/user'
-        },
-        {
-          icon: 'library_books',
-          title: 'Mis tareas',
-          link: '/tasks'
-        },
-        {
-          icon: 'group_add',
-          title: 'Registrarse',
-          link: '/signUp'
-        },
-        {
-          icon: 'lock_open',
-          title: 'Iniciar Sesion',
-          link: '/signIn'
-        }
-      ],
-      menuLogIn: [
-        {
-          icon: 'home',
-          title: 'Inicio',
-          link: '/home'
-        },
-        {
-          icon: 'account_circle',
-          title: 'Perfil',
-          link: '/user'
-        },
-        {
-          icon: 'library_books',
-          title: 'Mis tareas',
-          link: '/tasks'
-        },
-        {
-          icon: 'exit_to_app',
-          title: 'Salir',
-          link: '/logout'
-        }
-      ]
+      menuItems: []
     }
   },
   computed: {
-    getCurrentUserEmail: function () {
-      firebase.auth().onAuthStateChanged((user) => {
-        if (user) {
-          this.userEmail = user.email
-        } else {
-          this.userEmail = 'Conectate'
-        }
-      })
-    },
     isLoggedIn: function () {
       firebase.auth().onAuthStateChanged((user) => {
         if (user) {
           this.userIsConnected = true
+          this.userEmail = user.email
+          this.menuItems = [
+            {
+              icon: 'home',
+              title: 'Inicio',
+              link: '/home'
+            },
+            {
+              icon: 'account_circle',
+              title: 'Perfil',
+              link: '/user'
+            },
+            {
+              icon: 'library_books',
+              title: 'Mis tareas',
+              link: '/tasks'
+            },
+            {
+              icon: 'exit_to_app',
+              title: 'Salir',
+              link: '/logout'
+            }
+          ]
         } else {
           this.userIsConnected = false
+          this.userEmail = 'Conectate'
+          this.menuItems = [
+            {
+              icon: 'home',
+              title: 'Inicio',
+              link: '/home'
+            },
+            {
+              icon: 'account_circle',
+              title: 'Perfil',
+              link: '/user'
+            },
+            {
+              icon: 'group_add',
+              title: 'Registrarse',
+              link: '/signUp'
+            },
+            {
+              icon: 'lock_open',
+              title: 'Iniciar Sesion',
+              link: '/signIn'
+            }
+          ]
         }
       })
     }
