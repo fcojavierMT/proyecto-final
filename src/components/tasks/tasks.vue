@@ -56,13 +56,17 @@
 import firebase from 'firebase'
 
 export default {
+  beforeCreate () {
+    console.log('Hola soy lo mas nuevo')
+  },
   data () {
     return {
       dialog: false,
       userId: 'none',
       taskName: '',
       taskDescription: '',
-      taskUrgency: ''
+      taskUrgency: '',
+      myTasks: []
     }
   },
   methods: {
@@ -91,6 +95,9 @@ export default {
         }
       })
     }
+  },
+  created () {
+
   }
 }
 </script>

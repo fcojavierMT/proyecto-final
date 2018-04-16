@@ -23,7 +23,7 @@
     <v-layout v-if="alertSuccess">
       <v-flex xs12 sm6 offset-sm3>
         <v-alert color="success" :value="true" icon="done" class="animated fadeIn">
-          Te has registrado correctamente
+          Has iniciado sesión correctamente
         </v-alert>
       </v-flex>
     </v-layout>

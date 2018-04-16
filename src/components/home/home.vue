@@ -30,7 +30,6 @@
 </template>
 
 <script>
-import firebase from 'firebase'
 
 export default {
   data () {
@@ -65,17 +64,6 @@ export default {
           description: 'Una simple interación con dos clicks y tu nota ya esta lista!'
         }
       ]
-    }
-  },
-  computed: {
-    checkIfUserIsLoggedIn: function () {
-      firebase.auth().onAuthStateChanged((user) => {
-        if (user) {
-          console.log('Estoy conectado' + this.user.email)
-        } else {
-          console.log('No estoy conectado')
-        }
-      })
     }
   }
 }
