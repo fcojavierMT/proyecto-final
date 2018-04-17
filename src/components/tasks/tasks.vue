@@ -6,7 +6,7 @@
           <v-layout column align-center justify-center>
             <h1 class="main-text animated fadeIn">Administrador de tareas</h1>
             <v-dialog v-model="dialog" persistent max-width="500px">
-              <v-btn color="primary" dark slot="activator">Crear tarea {{getUserId}} </v-btn>
+              <v-btn color="primary" dark slot="activator">Crear tarea </v-btn>
               <v-card>
                 <v-card-title>
                   <span class="headline">Nueva tarea</span>
@@ -56,13 +56,10 @@
 import firebase from 'firebase'
 
 export default {
-  beforeCreate () {
-    console.log('Hola soy lo mas nuevo')
-  },
   data () {
     return {
       dialog: false,
-      userId: 'none',
+      userId: '',
       taskName: '',
       taskDescription: '',
       taskUrgency: '',
@@ -85,19 +82,42 @@ export default {
       }
     }
   },
-  computed: {
-    getUserId: function () {
-      firebase.auth().onAuthStateChanged((user) => {
-        if (user) {
-          this.userId = user.uid
-        } else {
-          console.log('Has cerrado sesión')
-        }
-      })
-    }
-  },
   created () {
-
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        this.userId = user.uid
+      } else {
+        console.log('Has cerrado sesión')
+      }
+    })
+    firebase.database().ref('tasks').once('value').then(
+      (data) => {
+        const objectTask = data.val()
+        for (let key in objectTask) {
+          let object = objectTask[key]
+          for (let value in object) {
+            console.log(object[value].id)
+            console.log(this.userId)
+            if (object[value].id === this.userId) {
+              this.myTasks.push({
+                id: value,
+                userId: object[value].id,
+                taskDescription: object[value].taskDescription,
+                taskName: object[value].taskName,
+                taskUrgency: object[value].taskUrgency
+              })
+            } else {
+              console.log('No tienes tareas')
+            }
+          }
+        }
+      }
+    )
+    .catch(
+      (error) => {
+        console.log(error)
+      }
+    )
   }
 }
 </script>
