@@ -3,8 +3,8 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-import firebase from 'firebase'
 import Loading from './components/common/loading.vue'
+import firebaseInit from './components/api/firebaseInit'
 
 import {
   Vuetify,
@@ -49,17 +49,8 @@ Vue.use(Vuetify, {
     VDialog,
     VSelect
   }
-})
-
-var config = {
-  apiKey: 'AIzaSyAR4URCrekwN5n0TDV1JvAhZ11ZE5Nw-dw',
-  authDomain: 'proyecto-final-a6a22.firebaseapp.com',
-  databaseURL: 'https://proyecto-final-a6a22.firebaseio.com',
-  projectId: 'proyecto-final-a6a22',
-  storageBucket: 'proyecto-final-a6a22.appspot.com',
-  messagingSenderId: '774263161108'
-}
-firebase.initializeApp(config)
+},
+firebaseInit)
 
 Vue.config.productionTip = false
 Vue.use(router)
