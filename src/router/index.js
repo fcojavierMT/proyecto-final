@@ -17,6 +17,10 @@ export default new Router({
       component: Home
     },
     {
+      path: '*',
+      redirect: '/'
+    },
+    {
       path: '/user',
       name: 'user',
       component: User
@@ -24,7 +28,10 @@ export default new Router({
     {
       path: '/tasks',
       name: 'tasks',
-      component: Tasks
+      component: Tasks,
+      meta: {
+        requiresAuth: true
+      }
     },
     {
       path: '/signIn',
@@ -40,10 +47,6 @@ export default new Router({
       path: '/logout',
       name: 'logout',
       component: LogOut
-    },
-    {
-      path: '*',
-      redirect: '/'
     }
   ]
 })

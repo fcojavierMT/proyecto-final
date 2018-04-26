@@ -3,7 +3,7 @@
     <v-layout row wrap class="ma-0">
       <v-flex xs12>
         <v-parallax src="/static/taks-images/task-wallpaper.jpg" height="600">
-          <v-layout column align-center justify-center>
+          <v-layout class="task-title" column align-center justify-center>
             <h1 class="main-text animated fadeIn">Administrador de tareas</h1>
             <v-btn color="primary" dark slot="activator" @click.native="dialog = true">Crear tarea </v-btn>
           </v-layout>
