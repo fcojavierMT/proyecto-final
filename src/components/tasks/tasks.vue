@@ -1,14 +1,8 @@
 <template>
-  <div>
-    <v-layout row wrap class="ma-0">
-      <v-flex xs12>
-        <v-parallax src="/static/taks-images/task-wallpaper.jpg" height="600">
-          <v-layout class="task-title" column align-center justify-center>
-            <h1 class="main-text animated fadeIn">Administrador de tareas</h1>
-            <v-btn color="primary" dark slot="activator" @click.native="dialog = true">Crear tarea </v-btn>
-          </v-layout>
-        </v-parallax>
-      </v-flex>
+  <div class="background-task ma-0">
+    <v-layout class="title column align-center justify-center">
+      <h1 class="main-text animated fadeIn">Administrador de tareas</h1>
+      <v-btn color="primary" dark slot="activator" @click.native="dialog = true">Crear tarea </v-btn>
     </v-layout>
     <v-dialog v-model="dialog" persistent max-width="500px">
       <v-card>
@@ -39,7 +33,20 @@
       </v-card>
     </v-dialog>
     <v-layout class="task-manager">
-      <v-flex></v-flex>
+      <v-flex xs12 sm6 offset-sm3>
+        <v-card class="animated fadeIn ma-3" v-for="(task, index) in myTasks" :key="index">
+          <v-card-media v-bind:class="getClasses(task.taskUrgency)" height="10px">
+          </v-card-media>
+          <v-card-title primary-title>
+            <div>
+              <h3 class="headline mb-0">{{task.taskName}}</h3>
+              <div>
+                {{task.taskDescription}}
+              </div>
+            </div>
+          </v-card-title>
+        </v-card>
+      </v-flex>
     </v-layout>
   </div>
 </template>
@@ -72,6 +79,13 @@ export default {
         firebase.database().ref('tasks').push(task)
         console.log(task)
       }
+    },
+    getClasses: function (status) {
+      return {
+        'danger-status': status === 'Urgente',
+        'warning-status': status === 'Mediana',
+        'ok-status': status === 'Poca'
+      }
     }
   },
   created () {
@@ -88,8 +102,6 @@ export default {
         for (let key in objectTask) {
           let object = objectTask[key]
           for (let value in object) {
-            console.log(object[value].id)
-            console.log(this.userId)
             if (object[value].id === this.userId) {
               this.myTasks.push({
                 id: value,
@@ -118,14 +130,33 @@ export default {
 <style lang="scss">
 @import '~styles/index.scss';
 
+.title {
+  height: 300px;
+}
 .main-text {
   font-size: 35px;
+  font-weight: 400;
+  color: $white;
+  margin-bottom: 30px;
 }
 .task-title {
   text-align: center;
 }
-#app{
-  background-color: $white;
+.background-task {
+    background-image: url("/static/task-images/task-wallpaper.jpg");
+    height: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
+.danger-status {
+  background-color: red;
+}
+.warning-status {
+  background-color: yellow;
+}
+.ok-status {
+  background-color: green;
+}
 </style>
