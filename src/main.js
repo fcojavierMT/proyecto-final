@@ -4,6 +4,7 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import Loading from './components/common/loading.vue'
+import Advise from './components/common/advise.vue'
 import firebaseInit from './components/api/firebaseInit'
 
 import {
@@ -53,6 +54,7 @@ firebaseInit)
 Vue.config.productionTip = false
 Vue.use(router)
 Vue.component('loading-component', Loading)
+Vue.component('advise-component', Advise)
 
 /* eslint-disable no-new */
 new Vue({

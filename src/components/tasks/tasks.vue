@@ -45,6 +45,10 @@
               </div>
             </div>
           </v-card-title>
+          <v-card-actions>
+            <v-btn flat color="orange">Modificar</v-btn>
+            <v-btn flat color="red">Eliminar</v-btn>
+          </v-card-actions>
         </v-card>
       </v-flex>
     </v-layout>
@@ -67,7 +71,7 @@ export default {
   },
   methods: {
     newTask: function () {
-      const task = [{
+      let task = [{
         id: this.userId,
         taskName: this.taskName,
         taskDescription: this.taskDescription,
@@ -77,7 +81,7 @@ export default {
         console.log('Datos nulos')
       } else {
         firebase.database().ref('tasks').push(task)
-        console.log(task)
+        this.myTasks.push(taskForArray)
       }
     },
     getClasses: function (status) {
@@ -86,43 +90,46 @@ export default {
         'warning-status': status === 'Mediana',
         'ok-status': status === 'Poca'
       }
-    }
-  },
-  created () {
-    firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
-        this.userId = user.uid
-      } else {
-        console.log('Has cerrado sesión')
-      }
-    })
-    firebase.database().ref('tasks').once('value').then(
-      (data) => {
-        const objectTask = data.val()
-        for (let key in objectTask) {
-          let object = objectTask[key]
-          for (let value in object) {
-            if (object[value].id === this.userId) {
-              this.myTasks.push({
-                id: value,
-                userId: object[value].id,
-                taskDescription: object[value].taskDescription,
-                taskName: object[value].taskName,
-                taskUrgency: object[value].taskUrgency
-              })
-            } else {
-              console.log('No tienes tareas')
+    },
+    getTasksFromFirebase: function () {
+      firebase.auth().onAuthStateChanged((user) => {
+        if (user) {
+          this.userId = user.uid
+        } else {
+          console.log('Has cerrado sesión')
+        }
+      })
+      firebase.database().ref('tasks').once('value').then(
+        (data) => {
+          const objectTask = data.val()
+          for (let key in objectTask) {
+            let object = objectTask[key]
+            for (let value in object) {
+              if (object[value].id === this.userId) {
+                this.myTasks.push({
+                  id: value,
+                  userId: object[value].id,
+                  taskDescription: object[value].taskDescription,
+                  taskName: object[value].taskName,
+                  taskUrgency: object[value].taskUrgency
+                })
+              } else {
+                console.log('No tienes tareas')
+              }
             }
           }
         }
-      }
-    )
-    .catch(
-      (error) => {
-        console.log(error)
-      }
-    )
-    console.log(this.myTasks)
+      )
+      .catch(
+        (error) => {
+          console.log(error)
+        }
+      )
+      console.log(this.myTasks)
+    }
+  },
+  created () {
+    this.getTasksFromFirebase()
   }
 }
 </script>
@@ -149,7 +156,6 @@ export default {
     background-repeat: no-repeat;
     background-size: cover;
 }
-
 .danger-status {
   background-color: red;
 }
