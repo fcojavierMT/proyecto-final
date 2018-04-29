@@ -5,7 +5,9 @@ import App from './App'
 import router from './router'
 import Loading from './components/common/loading.vue'
 import Advise from './components/common/advise.vue'
+import NewTask from './components/tasks/newtask.vue'
 import firebaseInit from './components/api/firebaseInit'
+import VueFire from 'vuefire'
 
 import {
   Vuetify,
@@ -24,7 +26,8 @@ import {
   VParallax,
   VAlert,
   VDialog,
-  VSelect
+  VSelect,
+  VChip
 } from 'vuetify'
 
 import '../node_modules/vuetify/src/stylus/app.styl'
@@ -46,15 +49,21 @@ Vue.use(Vuetify, {
     VParallax,
     VAlert,
     VDialog,
-    VSelect
+    VSelect,
+    VChip
   }
 },
 firebaseInit)
 
+const settings = {timestampsInSnapshots: true}
+firebaseInit.settings(settings)
+
 Vue.config.productionTip = false
 Vue.use(router)
+Vue.use(VueFire)
 Vue.component('loading-component', Loading)
 Vue.component('advise-component', Advise)
+Vue.component('newTask-component', NewTask)
 
 /* eslint-disable no-new */
 new Vue({
