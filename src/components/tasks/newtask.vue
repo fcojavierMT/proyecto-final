@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-layout class="title column align-center justify-center">
+    <v-layout class="new-task-title title column align-center justify-center">
       <h1 class="main-text animated fadeIn">Administrador de tareas</h1>
       <v-btn color="primary" dark slot="activator" @click.native="dialog = true">Crear tarea </v-btn>
     </v-layout>
@@ -79,6 +79,9 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
 
+.new-task-title {
+  height: 200px;
+}
 </style>

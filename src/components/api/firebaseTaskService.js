@@ -2,6 +2,13 @@ import db from './firebaseInit'
 import firebase from 'firebase'
 
 export default class FirebaseTaskService {
+  getCurrentUserId () {
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        return user.uid
+      }
+    })
+  }
   getTasksFromUser () {
     let userId = ''
     let myTasks = []
