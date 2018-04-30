@@ -54,6 +54,8 @@ Vue.use(Vuetify, {
   }
 },
 firebaseInit)
+const settings = {timestampsInSnapshots: true}
+firebaseInit.settings(settings)
 
 Vue.config.productionTip = false
 Vue.use(router)

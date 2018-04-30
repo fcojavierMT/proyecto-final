@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-card class="animated fadeInRight ma-3" v-for="task in myTasks" v-bind:key="task.taskId">
+    <v-card class="animated fadeInRight ma-3" v-for="task in tasks" v-bind:key="task.taskId">
       <v-card-media v-bind:class="getClasses(task.taskUrgency)" height="10px">
       </v-card-media>
       <v-card-title primary-title>
@@ -21,14 +21,32 @@
 
 <script>
 export default {
+  props: ['tasks'],
   data () {
     return {
-      myTasks: []
+
+    }
+  },
+  methods: {
+    getClasses: function (status) {
+      return {
+        'danger-status': status === 'Urgente',
+        'warning-status': status === 'Mediana',
+        'ok-status': status === 'Poca'
+      }
     }
   }
 }
 </script>
 
-<style>
-
+<style lang="scss">
+.danger-status {
+  background-color: red;
+}
+.warning-status {
+  background-color: yellow;
+}
+.ok-status {
+  background-color: green;
+}
 </style>

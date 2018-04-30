@@ -3,23 +3,7 @@
     <newTask-component v-on:refresh-data="retrieveDataFromFirebase()"></newTask-component>
     <v-layout class="task-list">
       <v-flex class="task-manager" xs12 sm6 offset-sm3>
-        <v-card class="animated fadeInRight ma-3" v-for="task in myTasks" v-bind:key="task.taskId">
-          <v-card-media v-bind:class="getClasses(task.taskUrgency)" height="10px">
-          </v-card-media>
-          <v-card-title primary-title>
-            <div>
-              <h3 class="headline mb-0">{{task.taskName}} <v-chip>{{task.taskUrgency}}</v-chip></h3>
-              <div>
-                {{task.taskDescription}}
-              </div>
-            </div>
-          </v-card-title>
-          <v-card-actions>
-            <v-btn flat color="orange">Modificar</v-btn>
-            <v-btn flat color="red">Eliminar</v-btn>
-          </v-card-actions>
-        </v-card>
-        <task-card v-bind:myTasks="myTasks"></task-card>
+        <task-card v-bind:tasks="myTasks"></task-card>
       </v-flex>
     </v-layout>
   </div>
@@ -40,13 +24,6 @@ export default {
     }
   },
   methods: {
-    getClasses: function (status) {
-      return {
-        'danger-status': status === 'Urgente',
-        'warning-status': status === 'Mediana',
-        'ok-status': status === 'Poca'
-      }
-    },
     retrieveDataFromFirebase: function () {
       this.myTasks = this.taskService.getTasksFromUser()
     }
@@ -54,7 +31,6 @@ export default {
   created () {
     this.taskService = taskService
     this.retrieveDataFromFirebase()
-    console.log(this.taskService.getTasksFromUser())
   }
 }
 </script>
@@ -82,15 +58,6 @@ export default {
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-}
-.danger-status {
-  background-color: red;
-}
-.warning-status {
-  background-color: yellow;
-}
-.ok-status {
-  background-color: green;
 }
 .task-list {
   height: 550px;
