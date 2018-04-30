@@ -1,8 +1,8 @@
 <template>
   <div class="background-task ma-0">
     <newTask-component v-on:refresh-data="retrieveDataFromFirebase()"></newTask-component>
-    <v-layout class="task-manager">
-      <v-flex xs12 sm6 offset-sm3>
+    <v-layout class="task-list">
+      <v-flex class="task-manager" xs12 sm6 offset-sm3>
         <v-card class="animated fadeInRight ma-3" v-for="task in myTasks" v-bind:key="task.taskId">
           <v-card-media v-bind:class="getClasses(task.taskUrgency)" height="10px">
           </v-card-media>
@@ -19,6 +19,7 @@
             <v-btn flat color="red">Eliminar</v-btn>
           </v-card-actions>
         </v-card>
+        <task-card v-bind:myTasks="myTasks"></task-card>
       </v-flex>
     </v-layout>
   </div>
@@ -53,7 +54,7 @@ export default {
     },
     retrieveDataFromFirebase: function () {
       this.myTasks = []
-      db.collection('tasks').get().then(
+      db.collection('tasks').orderBy('taskUrgency').get().then(
         querySnapshot => {
           querySnapshot.forEach(retrieveData => {
             if (this.userId === retrieveData.data().userId) {
@@ -94,8 +95,10 @@ export default {
   text-align: center;
 }
 .background-task {
+    overflow: hidden;
     background-image: url("/static/task-images/task-wallpaper.jpg");
     height: 100%;
+    width: 100%;
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -108,5 +111,12 @@ export default {
 }
 .ok-status {
   background-color: green;
+}
+.task-list {
+  height: 550px;
+  overflow-y: scroll;
+}
+::-webkit-scrollbar {
+  display: none;
 }
 </style>

@@ -1,0 +1,34 @@
+<template>
+  <div>
+    <v-card class="animated fadeInRight ma-3" v-for="task in myTasks" v-bind:key="task.taskId">
+      <v-card-media v-bind:class="getClasses(task.taskUrgency)" height="10px">
+      </v-card-media>
+      <v-card-title primary-title>
+        <div>
+          <h3 class="headline mb-0">{{task.taskName}} <v-chip>{{task.taskUrgency}}</v-chip></h3>
+          <div>
+            {{task.taskDescription}}
+          </div>
+        </div>
+      </v-card-title>
+      <v-card-actions>
+        <v-btn flat color="orange">Modificar</v-btn>
+        <v-btn flat color="red">Eliminar</v-btn>
+      </v-card-actions>
+    </v-card>
+  </div>
+</template>
+
+<script>
+export default {
+  data () {
+    return {
+      myTasks: []
+    }
+  }
+}
+</script>
+
+<style>
+
+</style>
