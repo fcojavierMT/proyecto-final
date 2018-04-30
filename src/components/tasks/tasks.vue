@@ -26,25 +26,20 @@
 </template>
 
 <script>
-import firebase from 'firebase'
-import db from '../api/firebaseInit'
+import FirebaseTaskService from '../api/firebaseTaskService'
+
+const taskService = new FirebaseTaskService()
 
 export default {
   data () {
     return {
       dialog: false,
       userId: '',
-      myTasks: []
+      myTasks: [],
+      taskService: ''
     }
   },
   methods: {
-    getCurrentUserId: function () {
-      firebase.auth().onAuthStateChanged(user => {
-        if (user) {
-          this.userId = user.uid
-        }
-      })
-    },
     getClasses: function (status) {
       return {
         'danger-status': status === 'Urgente',
@@ -53,28 +48,13 @@ export default {
       }
     },
     retrieveDataFromFirebase: function () {
-      this.myTasks = []
-      db.collection('tasks').orderBy('taskUrgency').get().then(
-        querySnapshot => {
-          querySnapshot.forEach(retrieveData => {
-            if (this.userId === retrieveData.data().userId) {
-              const data = {
-                'taskId': retrieveData.data().task_id,
-                'userId': retrieveData.data().userId,
-                'taskName': retrieveData.data().taskName,
-                'taskDescription': retrieveData.data().taskDescription,
-                'taskUrgency': retrieveData.data().taskUrgency
-              }
-              this.myTasks.push(data)
-            }
-          })
-        }
-      )
+      this.myTasks = this.taskService.getTasksFromUser()
     }
   },
   created () {
-    this.getCurrentUserId()
+    this.taskService = taskService
     this.retrieveDataFromFirebase()
+    console.log(this.taskService.getTasksFromUser())
   }
 }
 </script>
