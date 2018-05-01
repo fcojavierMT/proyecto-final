@@ -1,38 +1,40 @@
 import db from './firebaseInit'
-import firebase from 'firebase'
+// import firebase from 'firebase'
+
+const taskRef = db.collection('tasks')
+//  const userId = getCurrentUserId()
 
 export default class FirebaseTaskService {
-  getCurrentUserId () {
-    firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
-        return user.uid
-      }
-    })
-  }
   getTasksFromUser () {
-    let userId = ''
     let myTasks = []
-    firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
-        userId = user.uid
-      }
-    })
-    db.collection('tasks').orderBy('taskUrgency').get().then(
+    taskRef.orderBy('taskUrgency').onSnapshot(
       querySnapshot => {
+        myTasks.length = 0
         querySnapshot.forEach(retrieveData => {
-          if (userId === retrieveData.data().userId) {
-            const data = {
-              'taskId': retrieveData.data().task_id,
-              'userId': retrieveData.data().userId,
-              'taskName': retrieveData.data().taskName,
-              'taskDescription': retrieveData.data().taskDescription,
-              'taskUrgency': retrieveData.data().taskUrgency
-            }
-            myTasks.push(data)
-          }
+          myTasks.push(retrieveData.data())
         })
-      }
-    )
+      })
     return myTasks
   }
+  sentNewTask (task) {
+    taskRef.add(task)
+  }
+  deleteTask (taskId) {
+    let taskToDelete = taskRef.where('task_id', '==', taskId)
+    taskToDelete.get().then((queryFromFirebase) => {
+      queryFromFirebase.forEach((dataToDelete) => {
+        dataToDelete.ref.delete()
+      })
+    })
+  }
 }
+
+/*
+function getCurrentUserId () {
+  firebase.auth().onAuthStateChanged((user) => {
+    if (user) {
+      return user.uid
+    }
+  })
+}
+*/

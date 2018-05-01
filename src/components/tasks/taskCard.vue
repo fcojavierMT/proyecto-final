@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-card class="animated fadeInRight ma-3" v-for="task in tasks" v-bind:key="task.taskId">
+    <v-card class="animated fadeInRight ma-3" v-for="task in tasks" v-bind:key="task.task_id">
       <v-card-media v-bind:class="getClasses(task.taskUrgency)" height="10px">
       </v-card-media>
       <v-card-title primary-title>
@@ -13,18 +13,22 @@
       </v-card-title>
       <v-card-actions>
         <v-btn flat color="orange">Modificar</v-btn>
-        <v-btn flat color="red">Eliminar</v-btn>
+        <v-btn flat color="red" @click="deleteTask(task.task_id)">Eliminar</v-btn>
       </v-card-actions>
     </v-card>
   </div>
 </template>
 
 <script>
+import FirebaseTaskService from '../api/firebaseTaskService'
+
+const taskService = new FirebaseTaskService()
+
 export default {
   props: ['tasks'],
   data () {
     return {
-
+      taskService: ''
     }
   },
   methods: {
@@ -34,7 +38,13 @@ export default {
         'warning-status': status === 'Mediana',
         'ok-status': status === 'Poca'
       }
+    },
+    deleteTask: function (taskId) {
+      this.taskService.deleteTask(taskId)
     }
+  },
+  created () {
+    this.taskService = taskService
   }
 }
 </script>

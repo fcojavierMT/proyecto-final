@@ -1,9 +1,9 @@
 <template>
   <div class="background-task ma-0">
-    <newTask-component v-on:refresh-data="retrieveDataFromFirebase()"></newTask-component>
+    <newTask-component v-on:refresh-data="userTasks()"></newTask-component>
     <v-layout class="task-list">
       <v-flex class="task-manager" xs12 sm6 offset-sm3>
-        <task-card v-bind:tasks="myTasks"></task-card>
+        <task-card v-on:refresh-data="userTasks()" v-bind:tasks="myTasks"></task-card>
       </v-flex>
     </v-layout>
   </div>
@@ -24,13 +24,14 @@ export default {
     }
   },
   methods: {
-    retrieveDataFromFirebase: function () {
-      this.myTasks = this.taskService.getTasksFromUser()
+    userTasks: function () {
+      this.myTasks = taskService.getTasksFromUser()
     }
   },
   created () {
     this.taskService = taskService
-    this.retrieveDataFromFirebase()
+    this.userTasks()
+    console.log(this.myTasks)
   }
 }
 </script>
@@ -51,19 +52,16 @@ export default {
   text-align: center;
 }
 .background-task {
-    overflow: hidden;
-    background-image: url("/static/task-images/task-wallpaper.jpg");
-    height: 100%;
-    width: 100%;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
+  background-image: url("/static/task-images/task-wallpaper.jpg");
+  height: 100%;
+  width: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
-.task-list {
+.task-manager {
   height: 550px;
   overflow-y: scroll;
 }
-::-webkit-scrollbar {
-  display: none;
-}
+
 </style>

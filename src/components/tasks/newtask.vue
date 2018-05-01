@@ -13,13 +13,13 @@
           <v-container grid-list-md>
             <v-layout wrap>
               <v-flex xs12>
-                <v-text-field label="Nombre de la tarea" v-model="taskName" required></v-text-field>
+                <v-text-field label="Nombre de la tarea" v-model="task.taskName" required></v-text-field>
               </v-flex>
               <v-flex xs12>
-                <v-text-field label="Descripcion de la tarea" v-model="taskDescription" required multi-line></v-text-field>
+                <v-text-field label="Descripcion de la tarea" v-model="task.taskDescription" required multi-line></v-text-field>
               </v-flex>
               <v-flex xs12 sm6>
-                <v-select label="Urgencia" required v-model="taskUrgency" :items="['Poca', 'Mediana', 'Urgente']"></v-select>
+                <v-select label="Urgencia" required v-model="task.taskUrgency" :items="['Poca', 'Mediana', 'Urgente']"></v-select>
               </v-flex>
             </v-layout>
           </v-container>
@@ -38,27 +38,28 @@
 
 <script>
 import firebase from 'firebase'
-import db from '../api/firebaseInit'
+import FirebaseTaskService from '../api/firebaseTaskService'
+
+const taskService = new FirebaseTaskService()
 
 export default {
   data () {
     return {
       dialog: false,
-      taskName: '',
-      taskDescription: '',
-      taskUrgency: '',
-      userId: ''
+      taskService: '',
+      task: {
+        taskName: '',
+        taskDescription: '',
+        taskUrgency: '',
+        userId: '',
+        task_id: ''
+      }
     }
   },
   methods: {
     newTask: function () {
-      db.collection('tasks').add({
-        taskDescription: this.taskDescription,
-        taskName: this.taskName,
-        taskUrgency: this.taskUrgency,
-        task_id: this.generateUUID(),
-        userId: this.userId
-      }).then(this.$emit('refresh-data'))
+      this.task.task_id = this.generateUUID()
+      this.taskService.sentNewTask(this.task)
     },
     generateUUID: function () {
       return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c =>
@@ -66,14 +67,15 @@ export default {
       )
     },
     getCurrentUserId: function () {
-      firebase.auth().onAuthStateChanged(user => {
+      firebase.auth().onAuthStateChanged((user) => {
         if (user) {
-          this.userId = user.uid
+          this.task.userId = user.uid
         }
       })
     }
   },
   created () {
+    this.taskService = taskService
     this.getCurrentUserId()
   }
 }
