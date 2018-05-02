@@ -59,7 +59,12 @@ export default {
   methods: {
     newTask: function () {
       this.task.task_id = this.generateUUID()
-      this.taskService.sentNewTask(this.task)
+      if (this.task.taskName === '' || this.task.taskDescription === '' || this.task.taskUrgency === '') {
+        console.log('Put all the fields!')
+      } else {
+        this.taskService.sentNewTask(this.task)
+        this.cleanFormFields()
+      }
     },
     generateUUID: function () {
       return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c =>
@@ -72,6 +77,11 @@ export default {
           this.task.userId = user.uid
         }
       })
+    },
+    cleanFormFields: function () {
+      this.task.taskName = ''
+      this.task.taskDescription = ''
+      this.task.taskUrgency = ''
     }
   },
   created () {
@@ -85,5 +95,8 @@ export default {
 
 .new-task-title {
   height: 200px;
+}
+.main-text {
+  text-align: center;
 }
 </style>

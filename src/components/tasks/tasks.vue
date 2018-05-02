@@ -3,7 +3,7 @@
     <newTask-component v-on:refresh-data="userTasks()"></newTask-component>
     <v-layout class="task-list">
       <v-flex class="task-manager" xs12 sm6 offset-sm3>
-        <task-card v-on:refresh-data="userTasks()" v-bind:tasks="myTasks"></task-card>
+        <task-card v-bind:tasks="myTasks"></task-card>
       </v-flex>
     </v-layout>
   </div>
