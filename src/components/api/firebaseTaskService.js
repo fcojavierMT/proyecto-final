@@ -1,8 +1,8 @@
 import db from './firebaseInit'
-// import firebase from 'firebase'
+import firebase from 'firebase'
 
 const taskRef = db.collection('tasks')
-//  const userId = getCurrentUserId()
+const userId = firebase.auth().currentUser.uid
 
 export default class FirebaseTaskService {
   getTasksFromUser () {
@@ -11,7 +11,9 @@ export default class FirebaseTaskService {
       querySnapshot => {
         myTasks.length = 0
         querySnapshot.forEach(retrieveData => {
-          myTasks.push(retrieveData.data())
+          if (userId === retrieveData.data().userId) {
+            myTasks.push(retrieveData.data())
+          }
         })
       })
     return myTasks
@@ -29,12 +31,4 @@ export default class FirebaseTaskService {
   }
 }
 
-/*
-function getCurrentUserId () {
-  firebase.auth().onAuthStateChanged((user) => {
-    if (user) {
-      return user.uid
-    }
-  })
-}
-*/
+
