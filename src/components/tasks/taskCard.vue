@@ -20,10 +20,6 @@
 </template>
 
 <script>
-import FirebaseTaskService from '../api/firebaseTaskService'
-
-const taskService = new FirebaseTaskService()
-
 export default {
   props: ['tasks'],
   data () {
@@ -38,13 +34,7 @@ export default {
         'warning-status': status === 'Mediana',
         'ok-status': status === 'Poca'
       }
-    },
-    deleteTask: function (taskId) {
-      this.taskService.deleteTask(taskId)
     }
-  },
-  created () {
-    this.taskService = taskService
   }
 }
 </script>

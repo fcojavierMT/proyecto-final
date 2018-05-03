@@ -37,11 +37,6 @@
 </template>
 
 <script>
-import firebase from 'firebase'
-import FirebaseTaskService from '../api/firebaseTaskService'
-
-const taskService = new FirebaseTaskService()
-
 export default {
   data () {
     return {
@@ -58,25 +53,12 @@ export default {
   },
   methods: {
     newTask: function () {
-      this.task.task_id = this.generateUUID()
-      if (this.task.taskName === '' || this.task.taskDescription === '' || this.task.taskUrgency === '') {
-        console.log('Put all the fields!')
-      } else {
-        this.taskService.sentNewTask(this.task)
-        this.cleanFormFields()
-      }
+
     },
     generateUUID: function () {
       return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c =>
           (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
       )
-    },
-    getCurrentUserId: function () {
-      firebase.auth().onAuthStateChanged((user) => {
-        if (user) {
-          this.task.userId = user.uid
-        }
-      })
     },
     cleanFormFields: function () {
       this.task.taskName = ''
@@ -85,8 +67,7 @@ export default {
     }
   },
   created () {
-    this.taskService = taskService
-    this.getCurrentUserId()
+
   }
 }
 </script>

@@ -1,6 +1,6 @@
 <template>
-  <div class="background-task ma-0">
-    <newTask-component v-on:refresh-data="userTasks()"></newTask-component>
+  <div id="tasks" class="background-task ma-0">
+    <newTask-component></newTask-component>
     <v-layout class="task-list">
       <v-flex class="task-manager" xs12 sm6 offset-sm3>
         <task-card v-bind:tasks="myTasks"></task-card>
@@ -10,31 +10,25 @@
 </template>
 
 <script>
-import FirebaseTaskService from '../api/firebaseTaskService'
-
-const taskService = new FirebaseTaskService()
+import firebaseConnection from '../api/firebaseInit'
 
 export default {
+  name: 'tasks',
   data () {
     return {
-      dialog: false,
-      userId: '',
-      myTasks: [],
-      taskService: ''
-    }
-  },
-  methods: {
-    userTasks: function () {
-      this.myTasks = taskService.getTasksFromUser()
+      myTasks: []
     }
   },
   created () {
-    this.taskService = taskService
-    this.userTasks()
-    console.log(this.myTasks)
+    firebaseConnection.ref('tasks').on('child_added', (snapshot) => {
+      console.log(snapshot.val())
+      this.myTasks.push(snapshot.val())
+    })
   }
 }
 </script>
+
+
 
 <style lang="scss">
 @import '~styles/index.scss';
