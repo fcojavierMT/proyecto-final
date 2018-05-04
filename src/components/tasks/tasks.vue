@@ -1,6 +1,6 @@
 <template>
   <div id="tasks" class="background-task ma-0">
-    <newTask-component></newTask-component>
+    <newTask-component v-on:sendTask="sendNewTask"></newTask-component>
     <v-layout class="task-list">
       <v-flex class="task-manager" xs12 sm6 offset-sm3>
         <task-card v-bind:tasks="myTasks"></task-card>
@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import firebaseConnection from '../api/firebaseInit'
+import { db } from '../api/firebaseInit'
 
 export default {
   name: 'tasks',
@@ -19,8 +19,13 @@ export default {
       myTasks: []
     }
   },
+  methods: {
+    sendNewTask: function (value) {
+      console.log(value)
+    }
+  },
   created () {
-    firebaseConnection.ref('tasks').on('child_added', (snapshot) => {
+    db.ref('tasks').on('child_added', (snapshot) => {
       console.log(snapshot.val())
       this.myTasks.push(snapshot.val())
     })

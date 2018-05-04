@@ -7,7 +7,7 @@ import Loading from './components/common/loading.vue'
 import Advise from './components/common/advise.vue'
 import NewTask from './components/tasks/newtask.vue'
 import TaskCard from './components/tasks/taskCard.vue'
-import firebaseInit from './components/api/firebaseInit'
+import { db } from './components/api/firebaseInit'
 
 import {
   Vuetify,
@@ -53,7 +53,7 @@ Vue.use(Vuetify, {
     VChip
   }
 },
-firebaseInit)
+db)
 
 Vue.config.productionTip = false
 Vue.use(router)

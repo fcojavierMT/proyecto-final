@@ -24,7 +24,6 @@ export default {
   props: ['tasks'],
   data () {
     return {
-      taskService: ''
     }
   },
   methods: {
