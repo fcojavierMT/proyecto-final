@@ -48,28 +48,14 @@ export default {
         taskName: '',
         taskDescription: '',
         taskUrgency: '',
-        userId: '',
-        task_id: ''
+        userId: ''
       }
     }
   },
   methods: {
     newTask: function () {
-      this.task.task_id = this.generateUUID()
-      this.task.userId = this.getCurrentUserId()
       this.$emit('sendTask', this.task)
-    },
-    generateUUID: function () {
-      return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c =>
-          (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
-      )
-    },
-    getCurrentUserId: function () {
-      firebase.auth().onAuthStateChanged((user) => {
-        if (user) {
-          return user.uid
-        }
-      })
+      this.cleanFormFields()
     },
     cleanFormFields: function () {
       this.task.taskName = ''
@@ -78,7 +64,11 @@ export default {
     }
   },
   created () {
-
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        this.task.userId = user.uid
+      }
+    })
   }
 }
 </script>

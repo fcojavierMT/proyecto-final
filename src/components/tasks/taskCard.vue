@@ -13,7 +13,7 @@
       </v-card-title>
       <v-card-actions>
         <v-btn flat color="orange">Modificar</v-btn>
-        <v-btn flat color="red" @click="deleteTask(task.task_id)">Eliminar</v-btn>
+        <v-btn flat color="red" @click="deleteTask(task.id)">Eliminar</v-btn>
       </v-card-actions>
     </v-card>
   </div>
@@ -33,6 +33,9 @@ export default {
         'warning-status': status === 'Mediana',
         'ok-status': status === 'Poca'
       }
+    },
+    deleteTask: function (taskId) {
+      this.$emit('delete-task', taskId)
     }
   }
 }

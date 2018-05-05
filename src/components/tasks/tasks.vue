@@ -3,7 +3,7 @@
     <newTask-component v-on:sendTask="sendNewTask"></newTask-component>
     <v-layout class="task-list">
       <v-flex class="task-manager" xs12 sm6 offset-sm3>
-        <task-card v-bind:tasks="myTasks"></task-card>
+        <task-card v-bind:tasks="myTasks" v-on:delete-task="removeTask"></task-card>
       </v-flex>
     </v-layout>
   </div>
@@ -11,29 +11,52 @@
 
 <script>
 import { db } from '../api/firebaseInit'
+import firebase from 'firebase'
 
 export default {
   name: 'tasks',
   data () {
     return {
-      myTasks: []
+      myTasks: [],
+      currentId: ''
     }
   },
   methods: {
     sendNewTask: function (value) {
       console.log(value)
+      db.ref('tasks').push(value)
+    },
+    removeTask: function (taskId) {
+      db.ref('tasks').child(taskId).remove()
+    },
+    getCurrentUserId: function () {
+      firebase.auth().onAuthStateChanged((user) => {
+        if (user) {
+          this.currentId = user.uid
+        }
+      })
+    },
+    getCurrentTasksFromUser: function () {
+      db.ref('tasks').on('child_added', (snapshot) => {
+        if (this.currentId === snapshot.val().userId) {
+          this.myTasks.push({...snapshot.val(), id: snapshot.key})
+        }
+      })
+      db.ref('tasks').on('child_removed', snapshot => {
+        const deletedTask = this.myTasks.find(task => task.id === snapshot.key)
+        const index = this.myTasks.indexOf(deletedTask)
+        this.myTasks.splice(index, 1)
+      })
     }
   },
   created () {
-    db.ref('tasks').on('child_added', (snapshot) => {
-      console.log(snapshot.val())
-      this.myTasks.push(snapshot.val())
-    })
+    this.getCurrentUserId()
+    setTimeout((user) => {
+      this.getCurrentTasksFromUser()
+    }, 200)
   }
 }
 </script>
-
-
 
 <style lang="scss">
 @import '~styles/index.scss';
