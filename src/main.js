@@ -7,6 +7,7 @@ import Loading from './components/common/loading.vue'
 import Advise from './components/common/advise.vue'
 import NewTask from './components/tasks/newtask.vue'
 import TaskCard from './components/tasks/taskCard.vue'
+import UserCard from './components/user/userCard.vue'
 import { db } from './components/api/firebaseInit'
 
 import {
@@ -63,6 +64,7 @@ Vue.component('loading-component', Loading)
 Vue.component('advise-component', Advise)
 Vue.component('newTask-component', NewTask)
 Vue.component('task-card', TaskCard)
+Vue.component('user-card', UserCard)
 
 /* eslint-disable no-new */
 new Vue({
