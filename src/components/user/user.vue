@@ -3,11 +3,11 @@
   <div class="background-user">
     <v-flex class="user-card" xs12 sm6 offset-sm3>
       <v-card class="card-info animated fadeInUp">
-        <v-card-media class="background-avatar" height="200px" src="/static/user-images/user-background.jpg">
+        <div class="background-avatar">
           <v-avatar size="80px">
              <img src="/static/user-images/userIcon.png" alt="John">
           </v-avatar>
-        </v-card-media>
+        </div>
         <v-card-title primary-title>
           <div>
             <h3 class="headline mb-0">Nombre/Email</h3>
@@ -40,9 +40,12 @@ export default {
 }
 
 .background-avatar {
+  height: 200px;
   display: flex;
   justify-content: center;
   align-items: center;
+  background-size: cover;
+  background-image: url('/static/user-images/user-background.jpg')
 }
 
 </style>
