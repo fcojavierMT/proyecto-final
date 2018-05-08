@@ -1,6 +1,6 @@
 <template>
   <div>
-    <user-card v-bind:email="userEmail"></user-card>
+    <user-card v-bind:email="userEmail" v-bind:auth="auth"></user-card>
   </div>
 </template>
 
@@ -10,7 +10,8 @@ import firebase from 'firebase'
 export default {
   data () {
     return {
-      userEmail: ''
+      userEmail: '',
+      auth: ''
     }
   },
   methods: {
@@ -18,6 +19,7 @@ export default {
       firebase.auth().onAuthStateChanged((user) => {
         if (user) {
           this.userEmail = user.email
+          this.auth = user.emailVerified
         }
       })
     }

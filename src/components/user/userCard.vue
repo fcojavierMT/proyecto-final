@@ -2,7 +2,7 @@
 <div>
   <div class="background-user">
     <v-flex class="user-card" xs12 sm6 offset-sm3>
-      <v-card class="card-info animated fadeInUp">
+      <v-card class="card-info animated fadeInUp" hover>
         <div class="background-avatar">
           <v-avatar size="80px">
              <img src="/static/user-images/userIcon.png" alt="John">
@@ -11,7 +11,8 @@
         <v-card-title primary-title>
           <div>
             <h3 class="headline mb-0">{{email}}</h3>
-            <div>Description</div>
+            <div v-if="auth">Email verificado</div>
+            <div v-else>Email no verificado</div>
           </div>
         </v-card-title>
       </v-card>
@@ -22,7 +23,7 @@
 
 <script>
 export default {
-  props: ['email']
+  props: ['email', 'auth']
 }
 </script>
 
