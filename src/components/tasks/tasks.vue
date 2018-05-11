@@ -93,12 +93,11 @@ export default {
         this.myTasks.splice(index, 1)
       })
       taskReference.on('child_changed', snapshot => {
-      const updatedTask = this.myTasks.find(task => task.id === snapshot.key)
-      const index = this.myTasks.indexOf(updatedTask)
+        const updatedTask = this.myTasks.find(task => task.id === snapshot.key)
+        const index = this.myTasks.indexOf(updatedTask)
         this.myTasks.splice(index, 1)
-      this.myTasks.push({...snapshot.val(), id: snapshot.key})
+        this.myTasks.push({...snapshot.val(), id: snapshot.key})
       })
-
     }
   },
   created () {
