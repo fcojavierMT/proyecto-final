@@ -54,13 +54,22 @@ export default {
   },
   methods: {
     newTask: function () {
-      this.$emit('sendTask', this.task)
-      this.cleanFormFields()
+      if (this.isEmpty()) {
+        console.log('Completa los campos !')
+      } else {
+        this.$emit('sendTask', this.task)
+        this.cleanFormFields()
+      }
     },
     cleanFormFields: function () {
       this.task.taskName = ''
       this.task.taskDescription = ''
       this.task.taskUrgency = ''
+    },
+    isEmpty: function () {
+      return this.task.taskUrgency === '' ||
+             this.task.taskName === '' ||
+             this.task.taskDescription === ''
     }
   },
   created () {

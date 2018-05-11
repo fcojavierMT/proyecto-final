@@ -13,6 +13,8 @@
 import { db } from '../api/firebaseInit'
 import firebase from 'firebase'
 
+const taskReference = db.ref('tasks')
+
 export default {
   name: 'tasks',
   data () {
@@ -24,10 +26,10 @@ export default {
   methods: {
     sendNewTask: function (value) {
       console.log(value)
-      db.ref('tasks').push(value)
+      taskReference.push(value)
     },
     removeTask: function (taskId) {
-      db.ref('tasks').child(taskId).remove()
+      taskReference.child(taskId).remove()
     },
     getCurrentUserId: function () {
       firebase.auth().onAuthStateChanged((user) => {
@@ -37,12 +39,12 @@ export default {
       })
     },
     getCurrentTasksFromUser: function () {
-      db.ref('tasks').on('child_added', (snapshot) => {
+      taskReference.on('child_added', (snapshot) => {
         if (this.currentId === snapshot.val().userId) {
           this.myTasks.push({...snapshot.val(), id: snapshot.key})
         }
       })
-      db.ref('tasks').on('child_removed', snapshot => {
+      taskReference.on('child_removed', snapshot => {
         const deletedTask = this.myTasks.find(task => task.id === snapshot.key)
         const index = this.myTasks.indexOf(deletedTask)
         this.myTasks.splice(index, 1)
