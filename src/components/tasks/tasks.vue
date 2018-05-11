@@ -3,9 +3,37 @@
     <newTask-component v-on:sendTask="sendNewTask"></newTask-component>
     <v-layout class="task-list">
       <v-flex class="task-manager" xs12 sm6 offset-sm3>
-        <task-card v-bind:tasks="myTasks" v-on:delete-task="removeTask"></task-card>
+        <task-card v-bind:tasks="myTasks" v-on:delete-task="removeTask" v-on:modify-task="eventDialog"></task-card>
       </v-flex>
     </v-layout>
+    <v-dialog v-model="dialog" persistent max-width="500px">
+      <v-card>
+        <v-card-title>
+          <span class="headline">Modificar tarea</span>
+        </v-card-title>
+        <v-card-text>
+          <v-container grid-list-md>
+            <v-layout wrap>
+              <v-flex xs12>
+                <v-text-field label="Nombre de la tarea" v-model="taskModifed.taskName" required></v-text-field>
+              </v-flex>
+              <v-flex xs12>
+                <v-text-field label="Descripcion de la tarea" v-model="taskModifed.taskDescription" required multi-line></v-text-field>
+              </v-flex>
+              <v-flex xs12 sm6>
+                <v-select label="Urgencia" required v-model="taskModifed.taskUrgency" :items="['Poca', 'Mediana', 'Urgente']"></v-select>
+              </v-flex>
+            </v-layout>
+          </v-container>
+          <small>* Campos obligatorios</small>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="blue darken-1" flat @click.native="dialog = false">Cerrar</v-btn>
+          <v-btn color="blue darken-1" flat v-on:click="modifyTask" @click.native="dialog = false">Crear</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -20,7 +48,13 @@ export default {
   data () {
     return {
       myTasks: [],
-      currentId: ''
+      currentId: '',
+      dialog: false,
+      taskModifed: {
+        taskName: '',
+        taskDescription: '',
+        taskUrgency: ''
+      }
     }
   },
   methods: {
@@ -30,6 +64,13 @@ export default {
     },
     removeTask: function (taskId) {
       taskReference.child(taskId).remove()
+    },
+    modifyTask: function () {
+
+    },
+    eventDialog: function (taskId) {
+      console.log(taskId)
+      this.dialog = true
     },
     getCurrentUserId: function () {
       firebase.auth().onAuthStateChanged((user) => {

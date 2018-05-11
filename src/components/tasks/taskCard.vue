@@ -12,7 +12,7 @@
         </div>
       </v-card-title>
       <v-card-actions>
-        <v-btn flat color="orange">Modificar</v-btn>
+        <v-btn flat color="orange" @click="modifyTask(task.id)">Modificar</v-btn>
         <v-btn flat color="red" @click="deleteTask(task.id)">Eliminar</v-btn>
       </v-card-actions>
     </v-card>
@@ -36,6 +36,9 @@ export default {
     },
     deleteTask: function (taskId) {
       this.$emit('delete-task', taskId)
+    },
+    modifyTask: function (taskId) {
+      this.$emit('modify-task', taskId)
     }
   }
 }
