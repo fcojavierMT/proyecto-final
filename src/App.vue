@@ -32,7 +32,7 @@
       <v-toolbar-side-icon @click='sideNav =! sideNav'></v-toolbar-side-icon>
       <v-toolbar-title>
         <router-link class="eslogan-logo" to='/home' tag='span'>
-          <img src="./assets/logo.png" class="menu-logo">
+          <img src="static/logo.png" class="menu-logo">
         </router-link>
       </v-toolbar-title>
       <v-spacer></v-spacer>
