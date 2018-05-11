@@ -50,6 +50,7 @@ export default {
       myTasks: [],
       currentId: '',
       dialog: false,
+      idTask: '',
       taskModifed: {
         taskName: '',
         taskDescription: '',
@@ -66,10 +67,11 @@ export default {
       taskReference.child(taskId).remove()
     },
     modifyTask: function () {
-
+      taskReference.child(this.idTask).update(this.taskModifed)
     },
     eventDialog: function (taskId) {
       console.log(taskId)
+      this.idTask = taskId
       this.dialog = true
     },
     getCurrentUserId: function () {
@@ -90,6 +92,13 @@ export default {
         const index = this.myTasks.indexOf(deletedTask)
         this.myTasks.splice(index, 1)
       })
+      taskReference.on('child_changed', snapshot => {
+      const updatedTask = this.myTasks.find(task => task.id === snapshot.key)
+      const index = this.myTasks.indexOf(updatedTask)
+        this.myTasks.splice(index, 1)
+      this.myTasks.push({...snapshot.val(), id: snapshot.key})
+      })
+
     }
   },
   created () {
