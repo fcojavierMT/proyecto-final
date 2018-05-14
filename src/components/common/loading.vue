@@ -1,11 +1,8 @@
 <template>
     <div class="loader">
-      <svg version="1.1" id="Layer_1" x="0px" y="0px" viewBox="0 0 81 45" >
-        <circle class="circle1" fill="#1A7FC3" cx="13.5" cy="22.5" r="4.5" />
-        <circle class="circle2" fill="#1A7FC3" cx="31.5" cy="22.5" r="4.5" />
-        <circle class="circle3" fill="#1A7FC3" cx="49.5" cy="22.5" r="4.5" />
-        <circle class="circle4" fill="#1A7FC3" cx="67.5" cy="22.5" r="4.5" />
-      </svg> Redirigiendo...
+      <svg class="spinner" width="65px" height="65px" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
+        <circle class="path" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="30"></circle>
+      </svg>
     </div>
 </template>
 
@@ -20,39 +17,50 @@
   @import "~styles/index.scss";
 
   .loader {
-    width: 100px;
-    margin: 0 auto;
+    margin-top: 20px;
     text-align: center;
-    font-size: 1.2em;
-    color: $loading-color;
   }
 
-  $delays: 0 125ms 250ms .375s;
-  @for $i from 1 through 4 {
-    .circle#{$i} {
-      animation: bounce linear 2.2s infinite forwards;
-      animation-delay: nth($delays, $i);
-    }
+
+  $offset: 187;
+  $duration: 1.4s;
+
+  .spinner {
+    animation: rotator $duration linear infinite;
   }
 
-  @keyframes bounce {
-    0%,
-    100% {
-      transform: translateY(0);
-    }
-    20%,
-    50% {
-      transform: translateY(9px);
-    }
-    80% {
-      transform: translateY(2px)
-    }
-    40% {
-      transform: translateY(-15px);
-    }
-    60% {
-      transform: translateY(-7px);
-    }
+  @keyframes rotator {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(270deg); }
+  }
+
+  .path {
+    stroke-dasharray: $offset;
+    stroke-dashoffset: 0;
+    transform-origin: center;
+    animation:
+      dash $duration ease-in-out infinite,
+      colors ($duration*4) ease-in-out infinite;
+  }
+
+  @keyframes colors {
+    0% { stroke: #4285F4; }
+    25% { stroke: #DE3E35; }
+    50% { stroke: #F7C223; }
+    75% { stroke: #1B9A59; }
+    100% { stroke: #4285F4; }
+  }
+
+  @keyframes dash {
+  0% { stroke-dashoffset: $offset; }
+  50% {
+    stroke-dashoffset: $offset/4;
+    transform:rotate(135deg);
+  }
+  100% {
+    stroke-dashoffset: $offset;
+    transform:rotate(450deg);
+  }
   }
 
 </style>
