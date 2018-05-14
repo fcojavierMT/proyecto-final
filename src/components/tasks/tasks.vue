@@ -98,9 +98,15 @@ export default {
       }
     },
     eventDialog: function (taskId) {
-      console.log(taskId)
       this.idTask = taskId
       this.dialog = true
+      this.getDataToModify(this.idTask)
+    },
+    getDataToModify: function (taskId) {
+      let objectReturned = this.myTasks.find(task => task.id === taskId)
+      this.taskModifed.taskName = objectReturned.taskName
+      this.taskModifed.taskDescription = objectReturned.taskDescription
+      this.taskModifed.taskUrgency = objectReturned.taskUrgency
     },
     getCurrentUserId: function () {
       firebase.auth().onAuthStateChanged((user) => {
