@@ -30,7 +30,7 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="blue darken-1" flat @click.native="dialog = false">Cerrar</v-btn>
-          <v-btn color="blue darken-1" flat v-on:click="modifyTask" @click.native="dialog = false">Crear</v-btn>
+          <v-btn color="blue darken-1" flat v-on:click="modifyTask" @click.native="dialog = false">Modificar</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -66,7 +66,7 @@ export default {
       nativeToast({
         message: 'Tarea Añadida!',
         position: 'bottom',
-        timeout: 2000,
+        timeout: 3000,
         type: 'success'
       })
     },
@@ -75,18 +75,27 @@ export default {
       nativeToast({
         message: 'Tarea eliminada!',
         position: 'bottom',
-        timeout: 2000,
+        timeout: 3000,
         type: 'error'
       })
     },
     modifyTask: function () {
-      taskReference.child(this.idTask).update(this.taskModifed)
-      nativeToast({
-        message: 'Tarea modificada!',
-        position: 'bottom',
-        timeout: 2000,
-        type: 'warning'
-      })
+      if (this.isEmpty()) {
+        nativeToast({
+          message: 'Rellena los campos!',
+          position: 'bottom',
+          timeout: 3000,
+          type: 'warning'
+        })
+      } else {
+        taskReference.child(this.idTask).update(this.taskModifed)
+        nativeToast({
+          message: 'Tarea modificada!',
+          position: 'bottom',
+          timeout: 3000,
+          type: 'warning'
+        })
+      }
     },
     eventDialog: function (taskId) {
       console.log(taskId)
@@ -99,6 +108,11 @@ export default {
           this.currentId = user.uid
         }
       })
+    },
+    isEmpty: function () {
+      return this.taskModifed.taskUrgency === '' ||
+             this.taskModifed.taskName === '' ||
+             this.taskModifed.taskDescription === ''
     },
     getCurrentTasksFromUser: function () {
       taskReference.on('child_added', (snapshot) => {

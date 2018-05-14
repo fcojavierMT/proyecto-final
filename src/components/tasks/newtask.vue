@@ -38,6 +38,7 @@
 
 <script>
 import firebase from 'firebase'
+import nativeToast from 'native-toast'
 
 export default {
   data () {
@@ -55,7 +56,12 @@ export default {
   methods: {
     newTask: function () {
       if (this.isEmpty()) {
-        console.log('Completa los campos !')
+        nativeToast({
+          message: 'Rellena los campos',
+          position: 'bottom',
+          timeout: 3000,
+          type: 'warning'
+        })
       } else {
         this.$emit('sendTask', this.task)
         this.cleanFormFields()
