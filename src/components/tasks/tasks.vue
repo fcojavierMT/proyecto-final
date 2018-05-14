@@ -39,6 +39,7 @@
 
 <script>
 import { db } from '../api/firebaseInit'
+import nativeToast from 'native-toast'
 import firebase from 'firebase'
 
 const taskReference = db.ref('tasks')
@@ -62,12 +63,30 @@ export default {
     sendNewTask: function (value) {
       console.log(value)
       taskReference.push(value)
+      nativeToast({
+        message: 'Tarea Añadida!',
+        position: 'bottom',
+        timeout: 2000,
+        type: 'success'
+      })
     },
     removeTask: function (taskId) {
       taskReference.child(taskId).remove()
+      nativeToast({
+        message: 'Tarea eliminada!',
+        position: 'bottom',
+        timeout: 2000,
+        type: 'error'
+      })
     },
     modifyTask: function () {
       taskReference.child(this.idTask).update(this.taskModifed)
+      nativeToast({
+        message: 'Tarea modificada!',
+        position: 'bottom',
+        timeout: 2000,
+        type: 'warning'
+      })
     },
     eventDialog: function (taskId) {
       console.log(taskId)
