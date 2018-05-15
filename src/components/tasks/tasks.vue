@@ -1,31 +1,27 @@
 <template>
-  <div>
-    <v-layout row wrap class="ma-0">
-      <v-flex xs12>
-        <v-parallax src="/static/taks-images/task-wallpaper.jpg" height="600">
-          <v-layout column align-center justify-center>
-            <h1 class="main-text animated fadeIn">Administrador de tareas</h1>
-            <v-btn color="primary" dark slot="activator" @click.native="dialog = true">Crear tarea </v-btn>
-          </v-layout>
-        </v-parallax>
+  <div id="tasks" class="background-task ma-0">
+    <newTask-component v-on:sendTask="sendNewTask"></newTask-component>
+    <v-layout class="task-list">
+      <v-flex class="task-manager" xs12 sm6 offset-sm3>
+        <task-card v-bind:tasks="myTasks" v-on:delete-task="removeTask" v-on:modify-task="eventDialog"></task-card>
       </v-flex>
     </v-layout>
     <v-dialog v-model="dialog" persistent max-width="500px">
       <v-card>
         <v-card-title>
-          <span class="headline">Nueva tarea</span>
+          <span class="headline">Modificar tarea</span>
         </v-card-title>
         <v-card-text>
           <v-container grid-list-md>
             <v-layout wrap>
               <v-flex xs12>
-                <v-text-field label="Nombre de la tarea" v-model="taskName" required></v-text-field>
+                <v-text-field label="Nombre de la tarea" v-model="taskModifed.taskName" required></v-text-field>
               </v-flex>
               <v-flex xs12>
-                <v-text-field label="Descripcion de la tarea" v-model="taskDescription" required multi-line></v-text-field>
+                <v-text-field label="Descripcion de la tarea" v-model="taskModifed.taskDescription" required multi-line></v-text-field>
               </v-flex>
               <v-flex xs12 sm6>
-                <v-select label="Urgencia" required v-model="taskUrgency" :items="['Poca', 'Mediana', 'Urgente']"></v-select>
+                <v-select label="Urgencia" required v-model="taskModifed.taskUrgency" :items="['Poca', 'Mediana', 'Urgente']"></v-select>
               </v-flex>
             </v-layout>
           </v-container>
@@ -34,83 +30,120 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="blue darken-1" flat @click.native="dialog = false">Cerrar</v-btn>
-          <v-btn color="blue darken-1" flat v-on:click="newTask" @click.native="dialog = false">Crear</v-btn>
+          <v-btn color="blue darken-1" flat v-on:click="modifyTask" @click.native="dialog = false">Modificar</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
-    <v-layout class="task-manager">
-      <v-flex></v-flex>
-    </v-layout>
   </div>
 </template>
 
 <script>
+import { db } from '../api/firebaseInit'
+import nativeToast from 'native-toast'
 import firebase from 'firebase'
 
+const taskReference = db.ref('tasks')
+
 export default {
+  name: 'tasks',
   data () {
     return {
+      myTasks: [],
+      currentId: '',
       dialog: false,
-      userId: '',
-      taskName: '',
-      taskDescription: '',
-      taskUrgency: '',
-      myTasks: []
+      idTask: '',
+      taskModifed: {
+        taskName: '',
+        taskDescription: '',
+        taskUrgency: ''
+      }
     }
   },
   methods: {
-    newTask: function () {
-      const task = [{
-        id: this.userId,
-        taskName: this.taskName,
-        taskDescription: this.taskDescription,
-        taskUrgency: this.taskUrgency
-      }]
-      if (this.taskname === '' || this.taskDescription === '' || this.taskUrgency === '') {
-        console.log('Datos nulos')
+    sendNewTask: function (value) {
+      console.log(value)
+      taskReference.push(value)
+      nativeToast({
+        message: 'Tarea Añadida!',
+        position: 'bottom',
+        timeout: 3000,
+        type: 'success'
+      })
+    },
+    removeTask: function (taskId) {
+      taskReference.child(taskId).remove()
+      nativeToast({
+        message: 'Tarea eliminada!',
+        position: 'bottom',
+        timeout: 3000,
+        type: 'error'
+      })
+    },
+    modifyTask: function () {
+      if (this.isEmpty()) {
+        nativeToast({
+          message: 'Rellena los campos!',
+          position: 'bottom',
+          timeout: 3000,
+          type: 'warning'
+        })
       } else {
-        firebase.database().ref('tasks').push(task)
-        console.log(task)
+        taskReference.child(this.idTask).update(this.taskModifed)
+        nativeToast({
+          message: 'Tarea modificada!',
+          position: 'bottom',
+          timeout: 3000,
+          type: 'warning'
+        })
       }
+    },
+    eventDialog: function (taskId) {
+      this.idTask = taskId
+      this.dialog = true
+      this.getDataToModify(this.idTask)
+    },
+    getDataToModify: function (taskId) {
+      let objectReturned = this.myTasks.find(task => task.id === taskId)
+      this.taskModifed.taskName = objectReturned.taskName
+      this.taskModifed.taskDescription = objectReturned.taskDescription
+      this.taskModifed.taskUrgency = objectReturned.taskUrgency
+    },
+    getCurrentUserId: function () {
+      firebase.auth().onAuthStateChanged((user) => {
+        if (user) {
+          this.currentId = user.uid
+        }
+      })
+    },
+    isEmpty: function () {
+      return this.taskModifed.taskUrgency === '' ||
+             this.taskModifed.taskName === '' ||
+             this.taskModifed.taskDescription === ''
+    },
+    getCurrentTasksFromUser: function () {
+      taskReference.on('child_added', (snapshot) => {
+        if (this.currentId === snapshot.val().userId) {
+          this.myTasks.push({...snapshot.val(), id: snapshot.key})
+        }
+      })
+      taskReference.on('child_removed', snapshot => {
+        const deletedTask = this.myTasks.find(task => task.id === snapshot.key)
+        const index = this.myTasks.indexOf(deletedTask)
+        this.myTasks.splice(index, 1)
+      })
+      taskReference.on('child_changed', snapshot => {
+        const updatedTask = this.myTasks.find(task => task.id === snapshot.key)
+        const index = this.myTasks.indexOf(updatedTask)
+        this.myTasks.splice(index, 1)
+        this.myTasks.push({...snapshot.val(), id: snapshot.key})
+      })
     }
   },
   created () {
-    firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
-        this.userId = user.uid
-      } else {
-        console.log('Has cerrado sesión')
-      }
-    })
-    firebase.database().ref('tasks').once('value').then(
-      (data) => {
-        const objectTask = data.val()
-        for (let key in objectTask) {
-          let object = objectTask[key]
-          for (let value in object) {
-            console.log(object[value].id)
-            console.log(this.userId)
-            if (object[value].id === this.userId) {
-              this.myTasks.push({
-                id: value,
-                userId: object[value].id,
-                taskDescription: object[value].taskDescription,
-                taskName: object[value].taskName,
-                taskUrgency: object[value].taskUrgency
-              })
-            } else {
-              console.log('No tienes tareas')
-            }
-          }
-        }
-      }
-    )
-    .catch(
-      (error) => {
-        console.log(error)
-      }
-    )
-    console.log(this.myTasks)
+    this.getCurrentUserId()
+    setTimeout((user) => {
+      this.getCurrentTasksFromUser()
+    }, 200)
   }
 }
 </script>
@@ -118,14 +151,29 @@ export default {
 <style lang="scss">
 @import '~styles/index.scss';
 
+.title {
+  height: 300px;
+}
 .main-text {
   font-size: 35px;
+  font-weight: 400;
+  color: $white;
+  margin-bottom: 30px;
 }
 .task-title {
   text-align: center;
 }
-#app{
-  background-color: $white;
+.background-task {
+  background-image: url("/static/task-images/task-wallpaper.jpg");
+  height: 100%;
+  width: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.task-manager {
+  height: 550px;
+  overflow-y: scroll;
 }
 
 </style>

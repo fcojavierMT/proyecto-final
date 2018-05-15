@@ -28,11 +28,11 @@
       </v-list>
     </v-navigation-drawer>
 
-    <v-toolbar class='color-principal nav-principal' fixed>
+    <v-toolbar class='color-principal nav-principal' fixed height="75px">
       <v-toolbar-side-icon @click='sideNav =! sideNav'></v-toolbar-side-icon>
       <v-toolbar-title>
         <router-link class="eslogan-logo" to='/home' tag='span'>
-          <img src="./assets/logo.png" class="menu-logo">
+          <img src="static/logo.png" class="menu-logo">
         </router-link>
       </v-toolbar-title>
       <v-spacer></v-spacer>
@@ -43,9 +43,9 @@
         </v-btn>
       </v-toolbar-items>
     </v-toolbar>
-    <v-content>
+    <v-content class="renderized-content">
       <router-view>
-
+        <!-- Render content -->
       </router-view>
     </v-content>
     <v-footer height="auto" class="grey darken-3">
@@ -146,6 +146,9 @@ export default {
 
 .title-navbar{
   text-transform: capitalize;
+}
+.renderized-content {
+  margin-top: 75px;
 }
 
 #app{

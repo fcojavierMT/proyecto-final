@@ -82,9 +82,4 @@
 <style lang="scss">
 @import '~styles/index.scss';
 
-.signIn-container__card {
-  margin-top: 80px;
-}
-
-
 </style>

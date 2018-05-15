@@ -74,6 +74,7 @@
             (user) => {
               this.alertSuccess = true
               this.alertError = false
+              user.sendEmailVerification()
               setTimeout((user) => {
                 this.$router.replace('home')
               }, 3000)
@@ -97,10 +98,5 @@
 
 <style lang="scss">
 @import '~styles/index.scss';
-
-.signUp-container__card {
-  margin-top: 80px;
-}
-
 
 </style>

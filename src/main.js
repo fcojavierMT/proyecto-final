@@ -4,7 +4,11 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import Loading from './components/common/loading.vue'
-import firebaseInit from './components/api/firebaseInit'
+import Advise from './components/common/advise.vue'
+import NewTask from './components/tasks/newtask.vue'
+import TaskCard from './components/tasks/taskCard.vue'
+import UserCard from './components/user/userCard.vue'
+import { db } from './components/api/firebaseInit'
 
 import {
   Vuetify,
@@ -17,14 +21,15 @@ import {
   VGrid,
   VToolbar,
   transitions,
-  VCarousel,
   VCard,
   VForm,
   VTextField,
   VParallax,
   VAlert,
   VDialog,
-  VSelect
+  VSelect,
+  VChip,
+  VAvatar
 } from 'vuetify'
 
 import '../node_modules/vuetify/src/stylus/app.styl'
@@ -40,21 +45,26 @@ Vue.use(Vuetify, {
     VGrid,
     VToolbar,
     transitions,
-    VCarousel,
     VCard,
     VForm,
     VTextField,
     VParallax,
     VAlert,
     VDialog,
-    VSelect
+    VSelect,
+    VChip,
+    VAvatar
   }
 },
-firebaseInit)
+db)
 
 Vue.config.productionTip = false
 Vue.use(router)
 Vue.component('loading-component', Loading)
+Vue.component('advise-component', Advise)
+Vue.component('newTask-component', NewTask)
+Vue.component('task-card', TaskCard)
+Vue.component('user-card', UserCard)
 
 /* eslint-disable no-new */
 new Vue({
