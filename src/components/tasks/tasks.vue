@@ -7,32 +7,7 @@
       </v-flex>
     </v-layout>
     <v-dialog v-model="dialog" persistent max-width="500px">
-      <v-card>
-        <v-card-title>
-          <span class="headline">Modificar tarea</span>
-        </v-card-title>
-        <v-card-text>
-          <v-container grid-list-md>
-            <v-layout wrap>
-              <v-flex xs12>
-                <v-text-field label="Nombre de la tarea" v-model="taskModifed.taskName" required></v-text-field>
-              </v-flex>
-              <v-flex xs12>
-                <v-text-field label="Descripcion de la tarea" v-model="taskModifed.taskDescription" required multi-line></v-text-field>
-              </v-flex>
-              <v-flex xs12 sm6>
-                <v-select label="Urgencia" required v-model="taskModifed.taskUrgency" :items="['Poca', 'Mediana', 'Urgente']"></v-select>
-              </v-flex>
-            </v-layout>
-          </v-container>
-          <small>* Campos obligatorios</small>
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn color="blue darken-1" flat @click.native="dialog = false">Cerrar</v-btn>
-          <v-btn color="blue darken-1" flat v-on:click="modifyTask" @click.native="dialog = false">Modificar</v-btn>
-        </v-card-actions>
-      </v-card>
+      <modify-task v-on:event-modified="modifyTask" v-bind:taskModifed="taskModifed" v-on:close-dialog="closeModal">></modify-task>
     </v-dialog>
   </div>
 </template>
@@ -101,6 +76,9 @@ export default {
       this.idTask = taskId
       this.dialog = true
       this.getDataToModify(this.idTask)
+    },
+    closeModal: function () {
+      this.dialog = false
     },
     getDataToModify: function (taskId) {
       let objectReturned = this.myTasks.find(task => task.id === taskId)
