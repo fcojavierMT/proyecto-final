@@ -4,7 +4,6 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import Loading from './components/common/loading.vue'
-import Advise from './components/common/advise.vue'
 import NewTask from './components/tasks/newtask.vue'
 import TaskCard from './components/tasks/taskCard.vue'
 import ModifyTask from './components/tasks/modifyTask.vue'
@@ -62,7 +61,6 @@ db)
 Vue.config.productionTip = false
 Vue.use(router)
 Vue.component('loading-component', Loading)
-Vue.component('advise-component', Advise)
 Vue.component('newTask-component', NewTask)
 Vue.component('task-card', TaskCard)
 Vue.component('user-card', UserCard)
