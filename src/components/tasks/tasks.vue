@@ -90,6 +90,8 @@ export default {
       firebase.auth().onAuthStateChanged((user) => {
         if (user) {
           this.currentId = user.uid
+        } else {
+          this.$router.replace('home')
         }
       })
     },
