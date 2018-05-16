@@ -1,6 +1,7 @@
 # proyecto-final
 
-> Final proyect from DAW
+> Proyecto final de Daw, realizado con Vue.js + firebase + Vuetify
+
 
 ## Build Setup
 
